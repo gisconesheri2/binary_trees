@@ -12,20 +12,22 @@ int main(void)
 	    binary_tree_t *root;
 	        int full;
 
-root = binary_tree_node(NULL, 1);
-  root->left = binary_tree_node(root, 2);
-    root->right = binary_tree_node(root, 3);
+root = binary_tree_node(NULL, 98);
+    root->left = binary_tree_node(root, 12);
+        root->right = binary_tree_node(root, 128);
+    root->left->right = binary_tree_node(root->left, 54);
+    root->right->right = binary_tree_node(root->right, 402);
+   root->left->left = binary_tree_node(root->left, 10);
+   root->right->left = binary_tree_node(root->right, 110);
+ root->right->right->left = binary_tree_node(root->right->right, 200);
+ /* root->right->right->right = binary_tree_node(root->right->right, 512);*/
 
-      root->left->left = binary_tree_node(root->left, 4);
-        root->left->right = binary_tree_node(root->left, 5);
-	  root->left->right->left = binary_tree_node(root->left->right, 6);
-	    root->left->right->right = binary_tree_node(root->left->right, 7);
    binary_tree_print(root);
 
       full = binary_tree_is_full(root);
   printf("Is %d full: %d\n", root->n, full);
-       full = binary_tree_is_full(root->left);
-    printf("Is %d full: %d\n", root->left->n, full);
+       full = binary_tree_is_full(root->left->right);
+    printf("Is %d full: %d\n", root->left->right->n, full);
       full = binary_tree_is_full(root->right);
     printf("Is %d full: %d\n", root->right->n, full);
      return (0);
