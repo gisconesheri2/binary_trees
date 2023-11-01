@@ -9,7 +9,7 @@
  * Return: 1 if node is a full, 0 otherwise
  */
 
-int node_full(const binary_tree_t *node, int *parent_full)
+int node_full(const binary_tree_t *node, int *parent_full, int *first_node)
 {
 	if (node == NULL)
 		return (0);
@@ -17,9 +17,12 @@ int node_full(const binary_tree_t *node, int *parent_full)
 	if (node->right != NULL && node->left != NULL)
 	{
 		*parent_full = 1;
+		*first_node = 0;
 		return (1);
 	}
 	if (node->right == NULL && node->left == NULL && *parent_full == 1)
+		return (1);
+	if (node->right == NULL && node->left == NULL && *first_node == 1)
 		return (1);
 
 	*parent_full = 0;
@@ -36,7 +39,7 @@ int node_full(const binary_tree_t *node, int *parent_full)
  * Return: nothing
  */
 
-void btp4(const binary_tree_t *tree, int *tree_full, int *parent_full)
+void btp4(const binary_tree_t *tree, int *tree_full, int *parent_full, int *first_node)
 {
 	binary_tree_t *rc;
 	binary_tree_t *lc;
@@ -44,14 +47,14 @@ void btp4(const binary_tree_t *tree, int *tree_full, int *parent_full)
 	if (tree == NULL)
 		return;
 
-	if (node_full(tree, parent_full))
+	if (node_full(tree, parent_full, first_node))
 		*tree_full = 1;
 	else
 		*tree_full = 0;
 	rc = tree->right;
 	lc = tree->left;
-	btp4(lc, tree_full, parent_full);
-	btp4(rc, tree_full, parent_full);
+	btp4(lc, tree_full, parent_full, first_node);
+	btp4(rc, tree_full, parent_full, first_node);
 }
 
 /**
@@ -64,10 +67,11 @@ int binary_tree_is_full(const binary_tree_t *tree)
 {
 	int tree_full = 0;
 	int parent_full = 0;
+	int first_node = 1;
 
 	if (tree == NULL)
 		return (0);
 
-	btp4(tree, &tree_full, &parent_full);
+	btp4(tree, &tree_full, &parent_full, &first_node);
 	return (tree_full);
 }
