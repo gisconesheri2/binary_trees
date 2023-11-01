@@ -1,6 +1,24 @@
 #include "binary_trees.h"
 
 /**
+ * btl - checks if a node is a leaf (ie has no children)
+ *
+ * @node: pointer to the node to check
+ * Return: 1 if node is a leaf, 0 otherwise
+ */
+
+int btl(const binary_tree_t *node)
+{
+	if (node == NULL)
+		return (0);
+
+	if (node->right == NULL && node->left == NULL)
+		return (1);
+	else
+		return (0);
+}
+
+/**
  * btp2 - traverse a binary tree in preorder format
  *
  * @tree: pointer to root of the tree
@@ -17,7 +35,7 @@ void btp2(const binary_tree_t *tree, size_t *size_leaves)
 	if (tree == NULL)
 		return;
 
-	if (binary_tree_is_leaf(tree))
+	if (btl(tree))
 		*size_leaves = *size_leaves + 1;
 	rc = tree->right;
 	lc = tree->left;
