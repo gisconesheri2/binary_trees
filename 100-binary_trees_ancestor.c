@@ -32,18 +32,15 @@ int btd(const binary_tree_t *tree)
  */
 binary_tree_t *binary_trees_ancestor(const binary_tree_t *first, const binary_tree_t *second)
 {
-	binary_tree_t **fpa, **spa;
+	binary_tree_t *fpa[100], *spa[100];
 	binary_tree_t *temp_node, *current_node;
 	int i, j, pos;
 
-	fpa = malloc(sizeof(binary_tree_t *) * btd(first));
-	spa = malloc(sizeof(binary_tree_t *) * btd(second));
-
-
-	for (i = 0; i < btd(first); i++)
+	for (i = 0; i < 100; i++)
+	{
 		fpa[i] = NULL;
-	for (i = 0; i < btd(second); i++)
 		spa[i] = NULL;
+	}
 
 	temp_node = first->parent;
 	fpa[0] = temp_node->right == first ? temp_node->right : temp_node->left;
@@ -68,14 +65,8 @@ binary_tree_t *binary_trees_ancestor(const binary_tree_t *first, const binary_tr
 		{
 			current_node = spa[j];
 			if (temp_node == current_node)
-			{
-				free(fpa);
-				free(spa);
 				return (current_node);
-			}
 		}
 	}
-	free(spa);
-	free(fpa);
 	return (NULL);
 }
