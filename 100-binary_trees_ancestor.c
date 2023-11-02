@@ -1,6 +1,30 @@
 #include "binary_trees.h"
 
 /**
+ * btd - returns the depth of @tree
+ *
+ * @tree: pointer to the root of the tree
+ *
+ * Return: depth of the tree
+ */
+
+int btd(const binary_tree_t *tree)
+{
+	int depth;
+	binary_tree_t *temp_node;
+
+	if (tree == NULL)
+		return (0);
+	temp_node = tree->parent;
+	depth = 0;
+	while (temp_node != NULL)
+	{
+		depth++;
+		temp_node = temp_node->parent;
+	}
+	return (depth + 1);
+}
+/**
  * binary_trees_ancestor - finds lowest common ancestor for two nodes
  * @first: the firsr node
  * @second: the second node
@@ -8,15 +32,19 @@
  */
 binary_tree_t *binary_trees_ancestor(const binary_tree_t *first, const binary_tree_t *second)
 {
-	binary_tree_t *fpa[20], *spa[20];
+	binary_tree_t **fpa, **spa;
 	binary_tree_t *temp_node, *current_node;
 	int i, j, pos;
 
-	for (i = 0; i < 20; i++)
-	{
+	fpa = malloc(sizeof(binary_tree_t *) * btd(first));
+	spa = malloc(sizeof(binary_tree_t *) * btd(second));
+
+
+	for (i = 0; i < btd(first); i++)
 		fpa[i] = NULL;
+	for (i = 0; i < btd(second); i++)
 		spa[i] = NULL;
-	}
+
 	temp_node = first->parent;
 	fpa[0] = temp_node->right == first ? temp_node->right : temp_node->left;
 	temp_node = second->parent;
@@ -40,8 +68,14 @@ binary_tree_t *binary_trees_ancestor(const binary_tree_t *first, const binary_tr
 		{
 			current_node = spa[j];
 			if (temp_node == current_node)
+			{
+				free(fpa);
+				free(spa);
 				return (current_node);
+			}
 		}
 	}
+	free(spa);
+	free(fpa);
 	return (NULL);
 }
